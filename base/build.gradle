@@ -1,0 +1,73 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
+
+android {
+    namespace 'com.scan.base'
+    compileSdk 32
+
+    defaultConfig {
+        minSdk 23
+        targetSdk 32
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
+}
+
+dependencies {
+
+
+    architecture_component.each { key, value ->
+        api value
+    }
+
+    kotlin_dep.each { key, value ->
+        api value
+    }
+
+    coroutines.each { key, value ->
+        api value
+    }
+
+    ui.each { key, value ->
+        api value
+    }
+
+    koin_di.each { key, value ->
+        api value
+    }
+
+    network_dep.each { key, value ->
+        api value
+    }
+
+    testing.each { key, value ->
+        testImplementation value
+    }
+
+    androidtesting.each { key, value ->
+        androidTestImplementation value
+    }
+}
