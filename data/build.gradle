@@ -36,4 +36,7 @@ dependencies {
 
     api project(path: ':base')
 
+    datastore.each { key, value ->
+        api value
+    }
 }
