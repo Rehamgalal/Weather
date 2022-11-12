@@ -2,6 +2,7 @@ package com.scan.weather
 
 import android.app.Application
 import com.scan.data.di.dataUtilsModule
+import com.scan.data.di.databaseModule
 import com.scan.data.di.networkModule
 import com.scan.data.di.repositoryModule
 import com.scan.weather.di.appVersionModule
@@ -29,6 +30,7 @@ class WeatherApp : Application(), KoinComponent {
                     networkModule,
                     repositoryModule,
                     dataUtilsModule,
+                    databaseModule,
                     *featuresModule.toTypedArray()
                 )
             )

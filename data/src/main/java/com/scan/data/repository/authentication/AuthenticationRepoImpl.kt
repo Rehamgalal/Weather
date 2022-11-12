@@ -5,14 +5,17 @@ import android.ptc.com.ptcflixing.base.data.DataNotFoundException
 import android.ptc.com.ptcflixing.base.data.Resource
 import com.scan.base.utils.NetworkConnectivityHelper
 import com.scan.data.models.AuthResponse
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class AuthenticationRepoImpl(
     private val authenticationRemoteDataSource: AuthenticationRemoteDataSource,
     private val authenticationLocalDataSource: AuthenticationLocalDataSource,
-    networkConnectivityHelper: NetworkConnectivityHelper
-) : BaseRepo(networkConnectivityHelper), AuthenticationRepo {
+    networkConnectivityHelper: NetworkConnectivityHelper,
+    ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+) : BaseRepo(networkConnectivityHelper, ioDispatcher), AuthenticationRepo {
     override fun getAuth(
         grantType: String,
         apiKey: String,
@@ -29,12 +32,7 @@ class AuthenticationRepoImpl(
         })
     }
 
-    override fun getAuthFromLocal(): Flow<Resource<AuthResponse>> {
-        return flow {
-            authenticationLocalDataSource.getAccessToken()?.let {
-                emit(Resource.Success(it))
-                return@flow
-            } ?: emit(Resource.Error(DataNotFoundException()))
-        }
+    override fun getAuthFromLocal(): Flow<Resource<AuthResponse?>> {
+        return localOnlyFlow { authenticationLocalDataSource.getAccessToken() }
     }
 }

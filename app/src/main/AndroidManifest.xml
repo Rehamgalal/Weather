@@ -29,7 +29,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".weather.view.WeatherActivity"
             android:exported="false"
             android:theme="@style/Theme.Weather">
 

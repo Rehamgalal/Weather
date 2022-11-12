@@ -6,7 +6,7 @@ import com.scan.data.network.WeatherApi
 
 class WeatherRemoteDataSourceImpl(private val weatherApi: WeatherApi) : BaseRemoteDataSource(),
     WeatherRemoteDataSource {
-    override suspend fun getWeatherData(lat: String, lon: String): WeatherResponse {
-        return makeRequest { weatherApi.getWeatherData(lat, lon) }
+    override suspend fun getWeatherData(lat: Double, lon: Double, apiKey: String): WeatherResponse {
+        return makeRequest { weatherApi.getWeatherData(lat, lon, apiKey) }
     }
 }

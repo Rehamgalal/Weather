@@ -15,7 +15,7 @@ interface CitiesApi {
         @Field("client_secret") apiSecret: String
     ): Response<AuthResponse>
 
-    @GET("/v1/reference-data/locations/cities/")
+    @GET("/v1/reference-data/locations/cities")
     suspend fun searchCities(
         @Header("Authorization") accessToken: String,
         @Query("keyword") searchKey: String

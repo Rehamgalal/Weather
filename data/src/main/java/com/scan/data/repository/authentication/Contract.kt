@@ -11,7 +11,7 @@ interface AuthenticationRemoteDataSource {
 
 interface AuthenticationRepo {
     fun getAuth(grantType: String, apiKey: String, apiSecret: String): Flow<Resource<AuthResponse>>
-    fun getAuthFromLocal(): Flow<Resource<AuthResponse>>
+    fun getAuthFromLocal(): Flow<Resource<AuthResponse?>>
 
 }
 

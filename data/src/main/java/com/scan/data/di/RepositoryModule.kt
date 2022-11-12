@@ -10,10 +10,8 @@ import com.scan.data.repository.search.SearchCitiesRemoteDataSource
 import com.scan.data.repository.search.SearchCitiesRemoteDataSourceImpl
 import com.scan.data.repository.search.SearchCitiesRepo
 import com.scan.data.repository.search.SearchCitiesRepoImpl
-import com.scan.data.repository.weather.WeatherRemoteDataSource
-import com.scan.data.repository.weather.WeatherRepo
-import com.scan.data.repository.weather.WeatherRepoImpl
-import com.scan.data.repository.weather.WeatherRemoteDataSourceImpl
+import com.scan.data.repository.weather.*
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -21,7 +19,7 @@ import org.koin.dsl.module
 val repositoryModule = module {
     // Authentication Repo
     factoryOf(::AuthenticationRemoteDataSourceImpl) bind AuthenticationRemoteDataSource::class
-    factoryOf(::AuthenticationLocalDataSourceImpl) bind AuthenticationLocalDataSource::class
+    single<AuthenticationLocalDataSource> { AuthenticationLocalDataSourceImpl(androidContext()) }
     factory<AuthenticationRepo> { AuthenticationRepoImpl(get(), get(), get()) }
 
     // Search Repo
@@ -30,6 +28,7 @@ val repositoryModule = module {
 
     // Weather Repo
     factoryOf(::WeatherRemoteDataSourceImpl) bind WeatherRemoteDataSource::class
-    factory<WeatherRepo> { WeatherRepoImpl(get(), get()) }
+    factoryOf(::WeatherLocalDataSourceImpl) bind WeatherLocalDataSource::class
+    factory<WeatherRepo> { WeatherRepoImpl(get(), get(), get()) }
 
 }

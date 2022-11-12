@@ -39,4 +39,7 @@ dependencies {
     datastore.each { key, value ->
         api value
     }
+    room.each { key, value -> api value }
+    kapt compilers.room_kapt
+
 }

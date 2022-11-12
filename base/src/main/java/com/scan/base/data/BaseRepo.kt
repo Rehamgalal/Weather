@@ -1,6 +1,7 @@
 package android.ptc.com.ptcflixing.base.data
 
 import com.scan.base.utils.NetworkConnectivityHelper
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
@@ -8,7 +9,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 open class BaseRepo(
-    private val networkConnectivityHelper: NetworkConnectivityHelper
+    private val networkConnectivityHelper: NetworkConnectivityHelper,
+    val ioDispatcher: CoroutineDispatcher
+
 ) {
 
     protected fun <T> networkOnlyFlow(remoteCall: suspend () -> T): Flow<Resource<T>> {
@@ -57,5 +60,18 @@ open class BaseRepo(
     ) {
         e.printStackTrace()
         flowCollector.emit(Resource.Error(e))
+    }
+
+    inline fun <reified T> localOnlyFlow(crossinline localCall: suspend () -> T): Flow<Resource<T>> {
+        return flow {
+            emit(Resource.Loading)
+            try {
+                val data = localCall()
+                emit(Resource.Success(data))
+            } catch (e: RuntimeException) {
+                e.printStackTrace()
+                emit(Resource.Error(e))
+            }
+        }.flowOn(ioDispatcher)
     }
 }

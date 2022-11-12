@@ -5,7 +5,7 @@ import android.content.Intent
 import android.ptc.com.ptcflixing.base.view.BaseActivity
 import android.widget.Toast
 import com.airbnb.lottie.LottieDrawable
-import com.scan.weather.MainActivity
+import com.scan.weather.weather.view.WeatherActivity
 import com.scan.weather.R
 import com.scan.weather.databinding.ActivitySplashScreenBinding
 import com.scan.weather.splash.presentation.SplashScreenUiState
@@ -34,7 +34,7 @@ class WeatherSplashScreen :
                 Toast.makeText(this, it.exception.message, Toast.LENGTH_LONG).show()
             }
             is SplashScreenUiState.Success -> {
-                startActivity(Intent(this, MainActivity::class.java))
+                startActivity(Intent(this, WeatherActivity::class.java))
             }
         }
     }

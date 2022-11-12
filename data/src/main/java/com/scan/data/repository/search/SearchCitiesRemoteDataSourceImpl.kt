@@ -7,6 +7,6 @@ import com.scan.data.network.CitiesApi
 class SearchCitiesRemoteDataSourceImpl(private val citiesApi: CitiesApi) : BaseRemoteDataSource(),
     SearchCitiesRemoteDataSource {
     override suspend fun searchCities(searchKey: String, accessToken: String): CitiesResponse {
-        return makeRequest { citiesApi.searchCities(searchKey, accessToken) }
+        return makeRequest { citiesApi.searchCities("Bearer $accessToken", searchKey) }
     }
 }
