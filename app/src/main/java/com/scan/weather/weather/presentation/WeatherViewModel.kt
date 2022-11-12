@@ -17,21 +17,18 @@ class WeatherViewModel(
     private val weatherMapper: WeatherMapper
 ) : BaseViewModel<WeatherUiState>(WeatherUiState.Loading) {
 
-    init {
-        getAllCitiesWeatherData()
-    }
 
-    private fun getAllCitiesWeatherData() {
-        viewModelScope.launch {
-            getAllCitiesWeatherUseCase().collect {
-                when (it) {
-                    is Resource.Loading -> updateState(WeatherUiState.Loading)
-                    is Resource.Error -> updateState(WeatherUiState.Error(it.exception))
-                    is Resource.Success ->
-                        it.data?.let { list ->
-                            if (list.isNotEmpty()) {
-                                updateState(WeatherUiState.AllCitiesRetrieved(list.map { weatherResponse ->
-                                    weatherMapper.toCityCardUiModel(
+     fun getAllCitiesWeatherData() {
+         viewModelScope.launch {
+             getAllCitiesWeatherUseCase().collect {
+                 when (it) {
+                     is Resource.Loading -> updateState(WeatherUiState.Loading)
+                     is Resource.Error -> updateState(WeatherUiState.Error(it.exception))
+                     is Resource.Success ->
+                         it.data?.let { list ->
+                             if (list.isNotEmpty()) {
+                                 updateState(WeatherUiState.AllCitiesRetrieved(list.map { weatherResponse ->
+                                     weatherMapper.toCityCardUiModel(
                                         weatherResponse
                                     )
                                 }))

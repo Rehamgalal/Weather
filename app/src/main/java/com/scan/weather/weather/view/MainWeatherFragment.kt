@@ -13,8 +13,12 @@ import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 
 class MainWeatherFragment :
     BaseFragment<FragmentMainWeatherBinding, WeatherUiState, WeatherViewModel>() {
-    override fun getVM(): WeatherViewModel = getSharedViewModel()
+    override fun onViewAttach() {
+        super.onViewAttach()
+        viewModel.getAllCitiesWeatherData()
+    }
 
+    override fun getVM(): WeatherViewModel = getSharedViewModel()
     override fun getLayoutRes(): Int = R.layout.fragment_main_weather
     override fun renderState(uiState: WeatherUiState) {
         when (uiState) {
