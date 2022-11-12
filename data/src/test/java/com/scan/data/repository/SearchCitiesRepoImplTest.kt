@@ -4,12 +4,7 @@ import android.ptc.com.ptcflixing.base.data.Resource
 import app.cash.turbine.test
 import com.scan.base.utils.NetworkConnectivityHelper
 import com.scan.data.MainCoroutineRule
-import com.scan.data.models.AuthResponse
 import com.scan.data.models.CitiesResponse
-import com.scan.data.repository.authentication.AuthenticationLocalDataSource
-import com.scan.data.repository.authentication.AuthenticationRemoteDataSource
-import com.scan.data.repository.authentication.AuthenticationRepo
-import com.scan.data.repository.authentication.AuthenticationRepoImpl
 import com.scan.data.repository.search.SearchCitiesRemoteDataSource
 import com.scan.data.repository.search.SearchCitiesRepo
 import com.scan.data.repository.search.SearchCitiesRepoImpl
@@ -56,7 +51,7 @@ class SearchCitiesRepoImplTest {
     }
 
     @Test
-    fun testGetAuthentication() = runTest {
+    fun testSearchCities() = runTest {
         val result = mock<CitiesResponse>()
         Mockito.`when`(
             remoteDataSource.searchCities(
