@@ -8,7 +8,7 @@ import retrofit2.http.*
 interface CitiesApi {
 
     @FormUrlEncoded
-    @POST("/v1/security/oauth2/token/")
+    @POST("/v1/security/oauth2/token")
     suspend fun getAuth(
         @Field("grant_type") grantType: String,
         @Field("client_id") apiKey: String,

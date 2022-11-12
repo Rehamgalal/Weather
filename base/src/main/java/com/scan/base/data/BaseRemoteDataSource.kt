@@ -8,7 +8,7 @@ open class BaseRemoteDataSource {
 
     @Throws(
         ApiException::class,
-        SuccessFalseException::class,
+        DataNotFoundException::class,
         NotFoundException::class
     )
     protected suspend fun <T : Any> makeRequest(call: suspend () -> Response<T>): T {
@@ -17,7 +17,7 @@ open class BaseRemoteDataSource {
 
     @Throws(
         ApiException::class,
-        SuccessFalseException::class,
+        DataNotFoundException::class,
         NotFoundException::class
     )
     private suspend fun <T : Any> safeApiResult(call: suspend () -> Response<T>): T {

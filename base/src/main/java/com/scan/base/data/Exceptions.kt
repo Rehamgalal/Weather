@@ -11,7 +11,7 @@ open class ApiException(val code: Int, message: String? = "Code: $code") : Runti
 /**
  * Network API exception thrown when response code is 401 (unauthorized).
  */
-class SuccessFalseException(code: Int = 200, message: String? = "Product Not Found 200") :
+class DataNotFoundException(code: Int = 200, message: String? = "Data Not Found ") :
     ApiException(code, message)
 
 /**

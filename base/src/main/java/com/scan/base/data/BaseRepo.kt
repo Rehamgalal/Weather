@@ -28,6 +28,29 @@ open class BaseRepo(
         }.flowOn(Dispatchers.IO)
     }
 
+    protected fun <T> networkOnlyFlowAndStore(
+        remoteCall: suspend () -> T,
+        localCall: suspend (T) -> Unit
+    ): Flow<Resource<T>> {
+        suspend fun fetchFromNetwork(): T {
+            if (networkConnectivityHelper.isConnected()) {
+                val response = remoteCall()
+                localCall(response)
+                return response
+            } else throw NoInternetException()
+        }
+
+        return flow<Resource<T>> {
+            emit(Resource.Loading)
+
+            try {
+                emit(Resource.Success(fetchFromNetwork()))
+            } catch (e: RuntimeException) {
+                handleApiException(e, this)
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
     private suspend fun <T> handleApiException(
         e: RuntimeException,
         flowCollector: FlowCollector<Resource<T>>

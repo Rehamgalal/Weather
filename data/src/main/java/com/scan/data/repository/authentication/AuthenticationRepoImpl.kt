@@ -1,6 +1,7 @@
 package com.scan.data.repository.authentication
 
 import android.ptc.com.ptcflixing.base.data.BaseRepo
+import android.ptc.com.ptcflixing.base.data.DataNotFoundException
 import android.ptc.com.ptcflixing.base.data.Resource
 import com.scan.base.utils.NetworkConnectivityHelper
 import com.scan.data.models.AuthResponse
@@ -17,20 +18,23 @@ class AuthenticationRepoImpl(
         apiKey: String,
         apiSecret: String
     ): Flow<Resource<AuthResponse>> {
-        return flow {
-            authenticationLocalDataSource.getAccessToken()?.let {
-                emit(Resource.Success(it))
-                return@flow
-            }
-
+        return networkOnlyFlowAndStore(remoteCall = {
             authenticationRemoteDataSource.getAuth(
                 grantType,
                 apiKey,
                 apiSecret
-            ).let {
-                authenticationLocalDataSource.saveAccessToken(it)
-            }
-        }
+            )
+        }, localCall = {
+            authenticationLocalDataSource.saveAccessToken(it)
+        })
+    }
 
+    override fun getAuthFromLocal(): Flow<Resource<AuthResponse>> {
+        return flow {
+            authenticationLocalDataSource.getAccessToken()?.let {
+                emit(Resource.Success(it))
+                return@flow
+            } ?: emit(Resource.Error(DataNotFoundException()))
+        }
     }
 }
