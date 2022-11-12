@@ -30,5 +30,9 @@
         android:id="@+id/weatherDetailsFragment"
         android:name="com.scan.weather.weather.view.WeatherDetailsFragment"
         android:label="Weather Details"
-        tools:layout="@layout/fragment_weather_details" />
+        tools:layout="@layout/fragment_weather_details">
+        <action
+            android:id="@+id/action_weatherDetailsFragment_to_searchCitiesFragment"
+            app:destination="@id/searchCitiesFragment" />
+    </fragment>
 </navigation>

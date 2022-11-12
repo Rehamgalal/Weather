@@ -1,8 +1,8 @@
 package com.scan.data.models
 
 data class CitiesResponse(
-    val `data`: List<Data>,
-    val meta: Meta
+    val `data`: List<Data>?,
+    val meta: Meta?
 ) {
     data class Data(
         val address: Address,

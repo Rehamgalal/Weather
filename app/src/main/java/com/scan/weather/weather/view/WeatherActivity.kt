@@ -23,7 +23,12 @@ class WeatherActivity : BaseActivity<ActivityMainBinding, WeatherUiState, Weathe
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.fab.setOnClickListener { view ->
-            navController.navigate(R.id.action_mainWeatherFragment_to_searchCitiesFragment)
+            if (navController.currentDestination?.id == R.id.mainWeatherFragment) navController.navigate(
+                R.id.action_mainWeatherFragment_to_searchCitiesFragment
+            )
+            else if (navController.currentDestination?.id == R.id.weatherDetailsFragment) navController.navigate(
+                R.id.action_weatherDetailsFragment_to_searchCitiesFragment
+            )
         }
     }
 

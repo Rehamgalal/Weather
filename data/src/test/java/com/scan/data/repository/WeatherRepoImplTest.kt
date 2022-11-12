@@ -4,12 +4,7 @@ import android.ptc.com.ptcflixing.base.data.Resource
 import app.cash.turbine.test
 import com.scan.base.utils.NetworkConnectivityHelper
 import com.scan.data.MainCoroutineRule
-import com.scan.data.models.CitiesResponse
 import com.scan.data.models.WeatherResponse
-import com.scan.data.repository.authentication.AuthenticationLocalDataSource
-import com.scan.data.repository.search.SearchCitiesRemoteDataSource
-import com.scan.data.repository.search.SearchCitiesRepo
-import com.scan.data.repository.search.SearchCitiesRepoImpl
 import com.scan.data.repository.weather.WeatherLocalDataSource
 import com.scan.data.repository.weather.WeatherRemoteDataSource
 import com.scan.data.repository.weather.WeatherRepo

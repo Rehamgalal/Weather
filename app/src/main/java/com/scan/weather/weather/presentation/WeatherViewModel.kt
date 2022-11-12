@@ -75,8 +75,8 @@ class WeatherViewModel(
                     is Resource.Loading -> updateState(WeatherUiState.Loading)
                     is Resource.Error -> updateState(WeatherUiState.Error(resource.exception))
                     is Resource.Success ->
-                        resource.data?.let {
-                            updateState(WeatherUiState.CitySearchResult(it.data.map {
+                        resource.data?.data?.let {
+                            updateState(WeatherUiState.CitySearchResult(it.map {
                                 weatherMapper.toCityUiModel(
                                     it
                                 )
