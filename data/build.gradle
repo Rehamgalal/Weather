@@ -42,4 +42,11 @@ dependencies {
     room.each { key, value -> api value }
     kapt compilers.room_kapt
 
+    testing.each { key, value ->
+        testImplementation value
+    }
+
+    androidtesting.each { key, value ->
+        androidTestImplementation value
+    }
 }

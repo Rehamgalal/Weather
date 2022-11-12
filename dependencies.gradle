@@ -107,4 +107,26 @@ ext {
             room_ktx   : "androidx.room:room-ktx:$versions.room",
             room_paging: "androidx.room:room-paging:$versions.room",
     ]
+    testing = [
+            junit            : "junit:junit:$versions.junit",
+            mockito_kotlin_ex: "org.mockito.kotlin:mockito-kotlin:$versions.mockito_kotlin_ex",
+            robolectric      : "org.robolectric:robolectric:$versions.robolectric",
+            coroutines       : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines",
+            turbine          : "app.cash.turbine:turbine:$versions.turbine",
+            kluent           : "org.amshove.kluent:kluent-android:$versions.kluent",
+            mockito_inline   : "org.mockito:mockito-inline:2.13.0"
+    ]
+
+    androidtesting = [
+            test_runner      : "androidx.test:runner:$versions.androidx_test",
+            test_core        : "androidx.test:core:$versions.androidx_test",
+            test_rules       : "androidx.test:rules:$versions.androidx_test",
+            espresso         : "androidx.test.espresso:espresso-core:$versions.espresso",
+            android_test_core: "androidx.arch.core:core-testing:$versions.android_test_core",
+            androidx_junit   : "androidx.test.ext:junit:$versions.androidx_junit",
+            junit_ktx        : "androidx.test.ext:junit-ktx:$versions.androidx_test",
+            kluent           : "org.amshove.kluent:kluent-android:$versions.kluent",
+            mockito_kotlin_ex: "org.mockito.kotlin:mockito-kotlin:$versions.mockito_kotlin_ex",
+    ]
+
 }
