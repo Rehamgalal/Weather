@@ -1,19 +1,22 @@
 package com.scan.weather.weather.view
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.provider.MediaStore
 import android.ptc.com.ptcflixing.base.view.BaseFragment
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.navigation.fragment.findNavController
 import com.scan.weather.R
 import com.scan.weather.databinding.FragmentSearchCitiesBinding
 import com.scan.weather.weather.presentation.WeatherUiState
 import com.scan.weather.weather.presentation.WeatherViewModel
 import com.scan.weather.weather.view.adapter.CityDataRecyclerAdapter
-import com.scan.weather.weather.view.adapter.CityWeatherRecyclerAdapter
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 
 
@@ -32,9 +35,53 @@ class SearchCitiesFragment :
 
     private fun attachListener() {
         binding.searchButton.setOnClickListener {
-            viewModel.searchCities(binding.searchInput.text.toString())
+            if (viewModel.imageBitmap != null) viewModel.searchCities(binding.searchInput.text.toString())
+            else Toast.makeText(
+                requireContext(),
+                R.string.please_take_photo_first,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+        binding.takePhoto.setOnClickListener {
+            checkPermissionAndOpenCamera()
         }
     }
+
+    private fun checkPermissionAndOpenCamera() {
+        context?.let {
+            if (checkSelfPermission(
+                    it,
+                    Manifest.permission.CAMERA
+                )
+                == PackageManager.PERMISSION_DENIED
+            ) {
+                requestPermission.launch(Manifest.permission.CAMERA)
+            } else {
+                takePhotoFromCamera()
+            }
+        }
+
+    }
+
+    private val requestPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            takePhotoFromCamera()
+        }
+    private var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data?.extras
+                val imageBitmap = data?.get("data") as Bitmap
+                viewModel.imageBitmap = imageBitmap
+                binding.previewImage.setImageBitmap(imageBitmap)
+            }
+        }
+
+    private fun takePhotoFromCamera() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        resultLauncher.launch(intent)
+    }
+
 
     override fun renderState(uiState: WeatherUiState) {
         when (uiState) {

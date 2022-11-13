@@ -1,5 +1,7 @@
 package com.scan.weather.weather.presentation
 
+import android.graphics.Bitmap
+import android.net.Uri
 import android.ptc.com.ptcflixing.base.data.DataNotFoundException
 import android.ptc.com.ptcflixing.base.data.Resource
 import android.ptc.com.ptcflixing.base.view.BaseViewModel
@@ -14,21 +16,24 @@ class WeatherViewModel(
     private val getCityLocalWeatherDataUseCase: GetCityLocalWeatherDataUseCase,
     private val getWeatherDataUseCase: GetWeatherDataUseCase,
     private val searchCitiesUseCase: SearchCitiesUseCase,
+    private val insertImageUriUseCase: InsertImageUriUseCase,
     private val weatherMapper: WeatherMapper
 ) : BaseViewModel<WeatherUiState>(WeatherUiState.Loading) {
 
 
-     fun getAllCitiesWeatherData() {
-         viewModelScope.launch {
-             getAllCitiesWeatherUseCase().collect {
-                 when (it) {
-                     is Resource.Loading -> updateState(WeatherUiState.Loading)
-                     is Resource.Error -> updateState(WeatherUiState.Error(it.exception))
-                     is Resource.Success ->
-                         it.data?.let { list ->
-                             if (list.isNotEmpty()) {
-                                 updateState(WeatherUiState.AllCitiesRetrieved(list.map { weatherResponse ->
-                                     weatherMapper.toCityCardUiModel(
+    var imageBitmap: Bitmap? = null
+    var imageUri: Uri? = null
+    fun getAllCitiesWeatherData() {
+        viewModelScope.launch {
+            getAllCitiesWeatherUseCase().collect {
+                when (it) {
+                    is Resource.Loading -> updateState(WeatherUiState.Loading)
+                    is Resource.Error -> updateState(WeatherUiState.Error(it.exception))
+                    is Resource.Success ->
+                        it.data?.let { list ->
+                            if (list.isNotEmpty()) {
+                                updateState(WeatherUiState.AllCitiesRetrieved(list.map { weatherResponse ->
+                                    weatherMapper.toWeatherUiModel(
                                         weatherResponse
                                     )
                                 }))
@@ -52,13 +57,17 @@ class WeatherViewModel(
                     is Resource.Error -> updateState(WeatherUiState.Error(it.exception))
                     is Resource.Success ->
                         it.data?.let { list ->
-                            updateState(
-                                WeatherUiState.WeatherDetailRetrieved(
-                                    weatherMapper.toWeatherUiModel(
-                                        list.findLast { it.name == cityName }!!
+                            val weatherDetails = list.findLast { it.name == cityName }
+                            weatherDetails?.let {
+                                imageUri = it.imageUri
+                                updateState(
+                                    WeatherUiState.WeatherDetailRetrieved(
+                                        weatherMapper.toWeatherUiModel(
+                                            it
+                                        )
                                     )
                                 )
-                            )
+                            }
                         }
                 }
             }
@@ -87,22 +96,31 @@ class WeatherViewModel(
     fun getCityWeatherData(long: Double, lat: Double) {
         val apiKey = WEATHER_API_KEY
         viewModelScope.launch {
-            getWeatherDataUseCase(lat, long, apiKey).collectLatest {
-                when (it) {
-                    is Resource.Loading -> updateState(WeatherUiState.WeatherDetailRequested)
-                    is Resource.Error -> updateState(WeatherUiState.Error(it.exception))
-                    is Resource.Success ->
-                        it.data?.let {
-                            updateState(
-                                WeatherUiState.WeatherDetailRetrieved(
-                                    weatherMapper.toWeatherUiModel(
-                                        it
+            imageBitmap?.let {
+                getWeatherDataUseCase(lat, long, apiKey, it).collectLatest {
+                    when (it) {
+                        is Resource.Loading -> updateState(WeatherUiState.WeatherDetailRequested)
+                        is Resource.Error -> updateState(WeatherUiState.Error(it.exception))
+                        is Resource.Success ->
+                            it.data?.let {
+                                imageUri = it.imageUri
+                                updateState(
+                                    WeatherUiState.WeatherDetailRetrieved(
+                                        weatherMapper.toWeatherUiModel(
+                                            it
+                                        )
                                     )
                                 )
-                            )
-                        }
+                            }
+                    }
                 }
             }
+        }
+    }
+
+    fun insertImageUri(imageUri: Uri?, id: Int) {
+        imageUri?.let {
+            insertImageUriUseCase(imageUri, id)
         }
     }
 }

@@ -12,6 +12,7 @@ val weatherModule = module {
     factoryOf(::SearchCitiesUseCase)
     factoryOf(::GetAllCitiesWeatherUseCase)
     factoryOf(::GetCityLocalWeatherDataUseCase)
+    factoryOf(::InsertImageUriUseCase)
     factoryOf(::WeatherMapper)
     factoryOf(::WeatherViewModel)
 

@@ -8,13 +8,13 @@ import com.scan.weather.databinding.CityListItemBinding
 import com.scan.weather.weather.presentation.WeatherUiState
 
 class CityWeatherRecyclerAdapter(
-    private val citiesList: List<WeatherUiState.CityWeatherCardUiModel>,
+    private val citiesList: List<WeatherUiState.WeatherDetailUiModel>,
     val onCityClicked: (cityName: String) -> Unit
 ) : RecyclerView.Adapter<CityWeatherRecyclerAdapter.CityWeatherViewHolder>() {
 
     class CityWeatherViewHolder(val binding: CityListItemBinding) : ViewHolder(binding.root) {
-        fun bind(cityWeatherCardUiModel: WeatherUiState.CityWeatherCardUiModel) {
-            binding.city = cityWeatherCardUiModel
+        fun bind(cityWeatherCardUiModel: WeatherUiState.WeatherDetailUiModel) {
+            binding.weather = cityWeatherCardUiModel
         }
     }
 

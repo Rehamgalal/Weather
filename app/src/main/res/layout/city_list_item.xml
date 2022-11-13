@@ -4,8 +4,8 @@
     <data>
 
         <variable
-            name="city"
-            type="com.scan.weather.weather.presentation.WeatherUiState.CityWeatherCardUiModel" />
+            name="weather"
+            type="com.scan.weather.weather.presentation.WeatherUiState.WeatherDetailUiModel" />
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -19,61 +19,117 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/cityName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_8sdp"
-                android:text="@{city.cityName}"
-                android:textColor="@android:color/holo_purple"
-                android:textSize="@dimen/_16ssp"
-                app:layout_constraintStart_toStartOf="parent"
+            <com.google.android.material.imageview.ShapeableImageView
+                imageBitmap="@{weather.imageBitmap}"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_200sdp"
+                android:scaleType="centerCrop"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_8sdp"
-                android:text="@{city.currentTemp}"
-                android:textColor="@android:color/holo_purple"
-                android:textSize="@dimen/_22ssp"
+                android:id="@+id/cityName"
+                android:text="@{weather.cityName}"
+                android:textColor="@color/baby_blue"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/currentTemp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="spread" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/currentTemp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{weather.currentTemp}"
+                android:textColor="@color/baby_blue"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/description"
+                app:layout_constraintEnd_toEndOf="@id/cityName"
+                app:layout_constraintStart_toStartOf="@id/cityName"
+                app:layout_constraintTop_toBottomOf="@id/cityName" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_16sdp"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:text="@{city.description}"
-                android:textColor="@android:color/holo_purple"
-                android:textSize="@dimen/_14ssp"
+                android:text="@{weather.description}"
+                android:textColor="@color/baby_blue"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/feelsLike"
+                app:layout_constraintEnd_toEndOf="@id/cityName"
+                app:layout_constraintStart_toStartOf="@id/cityName"
+                app:layout_constraintTop_toBottomOf="@id/currentTemp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/feelsLike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{weather.feelsLike}"
+                android:textColor="@color/baby_blue"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/pressure"
+                app:layout_constraintEnd_toEndOf="@id/cityName"
+                app:layout_constraintStart_toStartOf="@id/cityName"
+                app:layout_constraintTop_toBottomOf="@id/description" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/pressure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{weather.pressure}"
+                android:textColor="@color/baby_blue"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/humidity"
+                app:layout_constraintEnd_toEndOf="@id/cityName"
+                app:layout_constraintStart_toStartOf="@id/cityName"
+                app:layout_constraintTop_toBottomOf="@id/feelsLike" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/humidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{weather.humidity}"
+                android:textColor="@color/baby_blue"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/wind"
+                app:layout_constraintEnd_toEndOf="@id/cityName"
+                app:layout_constraintStart_toStartOf="@id/cityName"
+                app:layout_constraintTop_toBottomOf="@id/pressure" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/wind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{weather.wind}"
+                android:textColor="@color/baby_blue"
+                android:textSize="@dimen/_8ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/minMax"
+                app:layout_constraintEnd_toEndOf="@id/cityName"
+                app:layout_constraintStart_toStartOf="@id/cityName"
+                app:layout_constraintTop_toBottomOf="@id/humidity" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/minMax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{weather.minMax}"
+                android:textColor="@color/baby_blue"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cityName" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/minTemp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:text="@{city.minTemp}"
-                android:textColor="@android:color/holo_purple"
-                android:textSize="@dimen/_12ssp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/description" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_8sdp"
-                android:text="@{city.maxTemp}"
-                android:textColor="@android:color/holo_purple"
-                android:textSize="@dimen/_12ssp"
-                app:layout_constraintEnd_toStartOf="@id/minTemp"
-                app:layout_constraintTop_toTopOf="@id/description" />
+                app:layout_constraintEnd_toEndOf="@id/cityName"
+                app:layout_constraintStart_toStartOf="@id/cityName"
+                app:layout_constraintTop_toBottomOf="@id/wind" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

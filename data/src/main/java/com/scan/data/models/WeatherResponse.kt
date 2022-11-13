@@ -1,5 +1,7 @@
 package com.scan.data.models
 
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -23,7 +25,9 @@ data class WeatherResponse(
     val timezone: Int,
     val visibility: Int,
     val weather: List<Weather>,
-    val wind: Wind
+    val wind: Wind,
+    var imageBitmap: Bitmap,
+    var imageUri: Uri
 ) : Parcelable {
     @Parcelize
     data class Clouds(

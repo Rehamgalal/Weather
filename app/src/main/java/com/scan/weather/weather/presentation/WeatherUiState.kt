@@ -1,5 +1,6 @@
 package com.scan.weather.weather.presentation
 
+import android.graphics.Bitmap
 import android.ptc.com.ptcflixing.base.view.UiState
 
 sealed class WeatherUiState : UiState {
@@ -15,18 +16,10 @@ sealed class WeatherUiState : UiState {
     data class WeatherDetailRetrieved(val weatherDetailUiModel: WeatherDetailUiModel) :
         WeatherUiState()
 
-    data class AllCitiesRetrieved(val citiesUiModel: List<CityWeatherCardUiModel>) :
+    data class AllCitiesRetrieved(val citiesUiModel: List<WeatherDetailUiModel>) :
         WeatherUiState()
 
     data class CitySearchResult(val citiesUiModel: List<CityUiModel>) : WeatherUiState()
-    data class CityWeatherCardUiModel(
-        val cityId: Int,
-        val cityName: String,
-        val currentTemp: String,
-        val description: String,
-        val maxTemp: String,
-        val MinTemp: String
-    )
 
     data class CityUiModel(
         val address: String,
@@ -35,6 +28,7 @@ sealed class WeatherUiState : UiState {
     )
 
     data class WeatherDetailUiModel(
+        val id: Int,
         val cityName: String,
         val currentTemp: String,
         val description: String,
@@ -42,6 +36,7 @@ sealed class WeatherUiState : UiState {
         val pressure: String,
         val humidity: String,
         val Wind: String,
-        val minMax: String
+        val minMax: String,
+        val imageBitmap: Bitmap
     )
 }
