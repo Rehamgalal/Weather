@@ -27,7 +27,7 @@ data class WeatherResponse(
     val weather: List<Weather>,
     val wind: Wind,
     var imageBitmap: Bitmap,
-    var imageUri: Uri
+    var imageUri: Uri?
 ) : Parcelable {
     @Parcelize
     data class Clouds(
